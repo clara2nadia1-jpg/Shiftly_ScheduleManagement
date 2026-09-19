@@ -1,66 +1,164 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Shiftly AI - Hospital Staff Scheduling & Financial Optimization System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Shiftly AI** adalah platform sistem manajemen penjadwalan pegawai rumah sakit berbasis web yang mengintegrasikan algoritma Machine Learning dan kecerdasan buatan (**K-Means Clustering**, **Genetic Algorithm**, dan **Random Forest**) untuk mengoptimalkan pembagian jadwal kerja teknis medis sekaligus mengevaluasi dampak finansial operasional rumah sakit.
 
-## About Laravel
+Sistem ini dikembangkan memanfaatkan **Healthcare Staff Dataset (Kaggle)** dengan memperhitungkan kompleksitas dunia kerja medis yang dinamis, seperti keragaman sertifikasi pegawai, spesialisasi medis, batas maksimum jam kerja, hingga kalkulasi lembur (*overtime*) dan biaya operasional penggajian.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## AI Features & Implementation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Komposisi Spesialisasi & Sertifikasi (K-Means Clustering)**
+   * **Masalah:** Setiap unit/shift di rumah sakit membutuhkan komposisi perawat dan dokter dengan kualifikasi khusus (contoh: ICU, IGD, Bedah).
+   * **Solusi:** Algoritma *K-Means* mengelompokkan pegawai berdasarkan tingkat keahlian, pengalaman, dan jenis sertifikasi agar distribusi staf per-shift seimbang dan sesuai standar kualifikasi.
 
-## Learning Laravel
+2. **Optimasi Penjadwalan Beban Kerja (Genetic Algorithm)**
+   * **Masalah:** Menyusun jadwal ratusan pegawai secara manual sering memicu *burnout*, bentrok shift, atau melanggar batasan regulasi jam kerja.
+   * **Solusi:** *Genetic Algorithm* (GA) secara otomatis memunculkan kombinasi jadwal kerja yang optimal (meminimalkan *hard constraints violation* & *soft constraints violation*).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. **Evaluasi & Prediksi Efisiensi Finansial (Random Forest)**
+   * **Masalah:** Biaya operasional tinggi akibat pembengkakan uang lembur atau alokasi staf berlebih di jam-jam sepi.
+   * **Solusi:** Model *Random Forest* menganalisis performa historis dan memprediksi kebutuhan finansial/anggaran gaji, sehingga manajemen bisa mengevaluasi efisiensi biaya jadwal yang dibuat sebelum diterapkan.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠 Tech Stack
 
-## Laravel Sponsors
+* **Web Architecture & Backend:** Laravel (PHP) — `Port: 8001`
+* **AI Engine & Microservice:** FastAPI (Python) — `Port: 8000`
+* **Database:** MySQL (Laragon / phpMyAdmin)
+* **Dataset:** Kaggle Healthcare Employee / Staff Dataset
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## First-Time Setup Guide
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Ikuti langkah-langkah di bawah ini untuk melakukan instalasi dan konfigurasi pertama kali pada environment lokal kamu.
 
-## Contributing
+### 1. Clone Repository
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Buka terminal/PowerShell, lalu jalankan perintah berikut:
 
-## Code of Conduct
+```bash
+git clone https://github.com/jonathanchristian21/shiftly_aiml.git
+cd shiftly-aiml
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 2. Setup Web Application (Laravel)
 
-## Security Vulnerabilities
+Masuk ke direktori `shiftly-web` dan install dependencies PHP:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+cd shiftly-web
+composer install
+```
 
-## License
+Copy file contoh environment dan generate application key:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+copy .env.example .env
+php artisan key:generate
+```
+
+Buka file `.env` yang baru dibuat di `shiftly-web`, lalu sesuaikan konfigurasi databasenya sebagai berikut:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=shiftly_aiml
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Buka **Laragon / phpMyAdmin**, lalu buat database baru dengan nama **`shiftly_aiml`**.
+
+Jalankan migrasi database:
+
+```bash
+php artisan migrate:fresh
+```
+
+### 3. Setup AI Service (FastAPI)
+
+Kembalikan direktori ke folder utama dan masuk ke folder `shiftly-ai`:
+
+```bash
+cd ..\shiftly-ai
+```
+
+Buat dan aktifkan Virtual Environment Python:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+Install seluruh library yang dibutuhkan:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## How to Run the Application
+
+Untuk menjalankan project ini, kamu perlu membukanya dalam 2 terminal berbeda (PowerShell).
+
+### Terminal 1: FastAPI (AI Engine)
+
+Jalankan perintah berikut:
+
+```powershell
+cd D:\laragon\www\Projects\shiftly-aiml\shiftly-ai
+.\.venv\Scripts\Activate.ps1
+python -B -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+**Cek Ketersediaan API:**
+* **Health Check:** `http://127.0.0.1:8000/health`
+* **API Docs (Swagger):** `http://127.0.0.1:8000/docs`
+
+### Terminal 2: Laravel (Web Service)
+
+Buka terminal baru, lalu jalankan perintah berikut:
+
+```powershell
+cd D:\laragon\www\Projects\shiftly-aiml\shiftly-web
+php artisan serve --port=8001
+```
+
+**Akses Web Application:**
+* Buka browser dan akses: `http://127.0.0.1:8001`
+
+---
+
+## Useful Commands
+
+* **Menghentikan Process Service (FastAPI / Laravel):**
+  Tekan `Ctrl + C` pada terminal tempat service berjalan.
+
+* **Menghentikan Process jika Port Terkunci (misal port 8001):**
+  Jika terjadi kendala *Port in use*, jalankan command PowerShell berikut untuk kill process:
+
+  ```powershell
+  Get-NetTCPConnection -LocalPort 8001 | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+  ```
+
+---
+
+## Troubleshooting & Important Notes
+
+### Note Login Akun Manager
+
+Jika kamu ingin mendemokan atau login menggunakan akun **Manager**:
+
+1. Buka database **`shiftly_aiml`** di **phpMyAdmin**.
+2. Cari data user dengan role manager pada tabel `users`.
+3. Edit data manager tersebut pada kolom `password`:
+   * Pilih fungsi **MD5** pada opsi drop-down.
+   * Masukkan password biasa (misal: `password123`).
+   * Klik **Save / Go**.
+4. Coba login menggunakan password tersebut.
+5. **Penting:** Jika setelah berhasil login terjadi error saat masuk/navigasi ke dalam dashboard account manager, kembalikan (*change back*) password tersebut menjadi password hash standar Laravel.
